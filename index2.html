@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page 2</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: url("uic1.jpg") no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 20px;
+    }
+
+    .info-container {
+      background: rgba(0,0,0,0.75);
+      padding: 25px;
+      border-radius: 12px;
+      width: 500px;
+      text-align: left;
+      border: 1px solid #555;
+    }
+    
+    .info-container h2 {
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .info-container p {
+      margin: 12px 0;
+    }
+    
+    .photo-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    img {
+      max-width: 150px;
+      border-radius: 8px;
+      border: 2px solid white;
+    }
+  </style>
+</head>
+<body>
+  <div class="info-container">
+    <h2>User Details</h2>
+    <p><strong>Full Name:</strong> <span id="displayFullName"></span></p>
+    <p><strong>Username:</strong> <span id="displayUsername"></span></p>
+    <p><strong>Email:</strong> <span id="displayEmail"></span></p>
+    <p><strong>Date of Birth:</strong> <span id="displayDob"></span></p>
+    <p><strong>Nationality:</strong> <span id="displayNationality"></span></p>
+    <p><strong>Home Address:</strong> <span id="displayAddress"></span></p>
+    
+    <div class="photo-container">
+      <p><strong>Photo:</strong></p>
+      <img id="displayPhoto" src="" alt="User Photo" style="display: none;">
+    </div>
+  </div>
+
+  <script>
+    window.onload = function() {
+      const userDataString = localStorage.getItem("userData");
+      
+      if (userDataString) {
+        // *** NEW CODE BLOCK STARTS HERE ***
+        // Check if the success message has already been shown in this session
+        if (!sessionStorage.getItem("welcomeMessageShown")) {
+          alert("Registration Successful!");
+          // Set a flag in sessionStorage so the alert doesn't show on refresh
+          sessionStorage.setItem("welcomeMessageShown", "true");
+        }
+        // *** NEW CODE BLOCK ENDS HERE ***
+
+        const userData = JSON.parse(userDataString);
+        
+        document.getElementById("displayFullName").textContent = userData.fullName || "N/A";
+        document.getElementById("displayUsername").textContent = userData.username || "N/A";
+        document.getElementById("displayEmail").textContent = userData.email || "N/A";
+        document.getElementById("displayDob").textContent = userData.dob || "N/A";
+        document.getElementById("displayNationality").textContent = userData.nationality || "N/A";
+        document.getElementById("displayAddress").textContent = userData.address || "N/A";
+        
+        if (userData.photo) {
+          const photoElement = document.getElementById("displayPhoto");
+          photoElement.src = userData.photo;
+          photoElement.style.display = "block";
+        }
+
+      } else {
+        document.querySelector(".info-container").innerHTML = "<h2>No user data found.</h2><p>Please go back and complete the registration form.</p>";
+      }
+    };
+  </script>
+</body>
+</html>
